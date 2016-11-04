@@ -1,13 +1,15 @@
   import { Injectable } from '@angular/core';
+  import { Http } from '@angular/http';
   import { Hero } from './hero';
   import { HEROES } from './mock-heroes';
   @Injectable()
   export class HeroService {
-    getHeroes(): Promise<Hero[]> {
-      return Promise.resolve(HEROES);
+    constructor(public http: Http) {}
+
+    getHeroes() {
+      return this.http.get('http://localhost:3000/heroes.json');
     }
-    getHero(id: number): Promise<Hero> {
-      return this.getHeroes()
-                 .then(heroes => heroes.find(hero => hero.id === id));
+    getHero(id: number){
+      return this.http.get('http://localhost:3000/heroes/' + id + '.json');
     }
   }
